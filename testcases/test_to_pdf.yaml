@@ -1,0 +1,59 @@
+- tcid: 4
+  tcname: png转pdf
+  setup:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+    - action: ["req", "verify_user_info.yaml", "Verify User Info"]
+      extract:
+        token: $..token
+    - action: ["req", "upload_token.yaml", "Upload Token"]
+      extract:
+        accessid: $..accessid
+        callback: $..callback
+        dir: $..dir
+        host: $..host
+        policy: $..policy
+        signature: $..signature
+
+  tc:
+    - action: ["req", "to_pdf/png_to_pdf.yaml", "Oss Callback"]
+      extract:
+        files: $..url
+        
+    - action: ["req", "to_pdf/png_to_pdf.yaml", "To Pdf"]
+      validate:
+        - eq: ["==", $..fileName, "sig_origin_files/test-png2pdf.pdf"]
+
+- tcid: 4
+  tcname: jpg转pdf
+  tc:
+    - action: ["req", "to_pdf/jpg_to_pdf.yaml", "Oss Callback"]
+      extract:
+        files: $..url
+
+    - action: ["req", "to_pdf/jpg_to_pdf.yaml", "To Pdf"]
+      validate:
+        - eq: ["==", $..fileName, "sig_origin_files/test-jpg2pdf.pdf"]
+
+- tcid: 4
+  tcname: pdf转pdf
+  tc:
+    - action: ["req", "to_pdf/pdf_to_pdf.yaml", "Oss Callback"]
+      extract:
+        files: $..url
+
+    - action: ["req", "to_pdf/pdf_to_pdf.yaml", "To Pdf"]
+      validate:
+        - eq: ["==", $..fileName, "sig_origin_files/test-pdf.pdf"]
+
+- tcid: 4
+  tcname: docx转pdf
+  tc:
+    - action: ["req", "to_pdf/docx_to_pdf.yaml", "Oss Callback"]
+      extract:
+        files: $..url
+
+    - action: ["req", "to_pdf/docx_to_pdf.yaml", "To Pdf"]
+      validate:
+        - eq: ["==", $..fileName, "sig_origin_files/test-docx2pdf.pdf"]

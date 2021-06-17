@@ -1,0 +1,9 @@
+- tcid: 1
+  tcname: 通过手机号获取机构列表
+  tc:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+
+      validate:
+        - eq: ["==", $..oId, $oId]

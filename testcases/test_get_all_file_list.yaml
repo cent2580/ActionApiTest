@@ -1,0 +1,33 @@
+- tcid: 8
+  tcname: 任务被创建，获取任务中所有文件
+  setup:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+    - action: ["req", "verify_user_info.yaml", "Verify User Info"]
+      extract:
+        token: $..token
+        uid: $..uid
+    - action: ["req", "create_task.yaml", "Create Task"]
+      extract:
+        tid: $..tid
+
+  tc:
+    - action: ["req", "get_all_file_list.yaml", "Get All File List"]
+      validate:
+        - eq: ["==", $.code, 200]
+        - eq: ["==", $.message, "success"]
+        - eq: ["num", $..list, 1]
+        - eq: ["<", $..response_time, 3]
+
+- tcid: 8
+  tcname: 任务被删除，获取任务中所有文件
+  setup:
+    - action: ["req", "delete_task_info.yaml", "Delete Task Info"]
+  tc:
+    - action: ["req", "get_all_file_list.yaml", "Get All File List"]
+      validate:
+        - eq: ["==", $.code, 500]
+        - eq: ["==", $.message, "数据不存在"]
+        - eq: ["==", $.data, null]
+        - eq: ["<", $..response_time, 3]

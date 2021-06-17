@@ -1,0 +1,16 @@
+Get Task List:
+  request:
+    url: /getTaskList
+    method: GET
+    headers:
+      authorization: "Bearer $token"
+    data:
+      uid: $uid
+      taskname: ""
+      person_name: ""
+      date: ""
+      size: 10
+      page: 1
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]

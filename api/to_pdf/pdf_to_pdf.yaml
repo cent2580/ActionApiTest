@@ -1,0 +1,36 @@
+Oss Callback:
+  request:
+    host: $host
+    url: /
+    method: POST
+    headers:
+      authorization: "Bearer $token"
+    data:
+      key: $dir/test-pdf.pdf
+      success_action_status: 200
+      OSSAccessKeyId: $accessid
+      callback: $callback
+      x:var1: $oId
+      dir: $dir
+      host: $host
+      policy: $policy
+      signature: $signature
+    files: files\房屋租赁合同.pdf
+
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]
+
+To Pdf:
+  request:
+    url: /toPDF
+    method: POST
+    headers:
+      authorization: "Bearer $token"
+    data:
+      files: $files
+      customName: sig_origin_files/test-pdf
+
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]

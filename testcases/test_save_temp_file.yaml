@@ -1,0 +1,38 @@
+- tcid: 5
+  tcname: 存储临时PDF文件
+  setup:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+    - action: ["req", "verify_user_info.yaml", "Verify User Info"]
+      extract:
+        token: $..token
+        uid: $..uid
+    - action: ["req", "upload_token.yaml", "Upload Token"]
+      extract:
+        accessid: $..accessid
+        callback: $..callback
+        dir: $..dir
+        host: $..host
+        policy: $..policy
+        signature: $..signature
+
+    - action: ["req", "to_pdf/png_to_pdf.yaml", "Oss Callback"]
+      extract:
+        files: $..url
+
+    - action: ["req", "to_pdf/png_to_pdf.yaml", "To Pdf"]
+      extract:
+        fileurl: $..fileUrl
+  tc:
+    - action: ["req", "save_temp_file.yaml", "Save Temp File"]
+      extract:
+        tmp_tid: $..tmp_tid
+    - action: ["req", "get_temp_file.yaml", "Get Temp File"]
+
+      validate:
+        - eq: ["num", $..list, 1]
+        - eq: ["num", $..pdf_list, 1]
+        - eq: ["num", $..person_list, 0]
+        - eq: ["==", $..name, "@Pi测试任务"]
+        - eq: ["==", $..auth_type, "code"]

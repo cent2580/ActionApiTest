@@ -1,0 +1,13 @@
+Delete Task Info:
+  request:
+    url: /deleteTaskInfo
+    method: POST
+    headers:
+      authorization: "Bearer $token"
+    data:
+      uid: $uid
+      tid: $tid
+      action: ""
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]

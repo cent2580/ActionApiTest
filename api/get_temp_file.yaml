@@ -1,0 +1,12 @@
+Get Temp File:
+  request:
+    url: /getTempFile
+    method: GET
+    headers:
+      authorization: "Bearer $token"
+    data:
+      uid: $uid
+      tmp_tid: $tmp_tid
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]

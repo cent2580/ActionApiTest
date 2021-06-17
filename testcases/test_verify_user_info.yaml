@@ -1,0 +1,16 @@
+- tcid: 2
+  tcname: 获取用户信息和token
+  setup:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+  tc:
+    - action: ["req", "verify_user_info.yaml", "Verify User Info"]
+      extract:
+        token: $..token
+
+      validate:
+        - eq: ["==", $..name, "李成"]
+        - eq: ["==", $..phone, "13367966390"]
+        - eq: ["==", $..status, 1]
+        - eq: ["==", $..token, $token]

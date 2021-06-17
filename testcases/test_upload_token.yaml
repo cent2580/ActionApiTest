@@ -1,0 +1,28 @@
+- tcid: 3
+  tcname: 获取上传token
+  setup:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+    - action: ["req", "verify_user_info.yaml", "Verify User Info"]
+      extract:
+        token: $..token
+
+  tc:
+    - action: ["req", "upload_token.yaml", "Upload Token"]
+      extract:
+        accessid: $..accessid
+        callback: $..callback
+        dir: $..dir
+        host: $..host
+        policy: $..policy
+        signature: $..signature
+      validate:
+        - eq: ["==", $.code, 200]
+        - eq: ["==", $.message, "success"]
+        - eq: ["==", $..accessid, $accessid]
+        - eq: ["==", $..callback, $callback]
+        - eq: ["==", $..dir, $dir]
+        - eq: ["==", $..host, $host]
+        - eq: ["==", $..policy, $policy]
+        - eq: ["==", $..signature, $signature]

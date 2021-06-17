@@ -1,0 +1,15 @@
+Verify User Info:
+  request:
+    url: /verifyUserInfo
+    method: POST
+    headers:
+      authorization: "appCode pwLTKTob8DLNM4wRzIXCWXqxEvWlE4Tz"
+    data:
+      phone: 13367966390
+      code: 095738
+      oId: $oId
+
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]
+    - eq: ["<", $.response_time, 3]

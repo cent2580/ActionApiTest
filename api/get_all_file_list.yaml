@@ -1,0 +1,9 @@
+Get All File List:
+  request:
+    url: /getAllFileList
+    method: GET
+    headers:
+      authorization: "Bearer $token"
+    data:
+      tid: $tid
+    

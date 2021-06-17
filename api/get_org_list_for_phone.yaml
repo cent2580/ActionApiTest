@@ -1,0 +1,13 @@
+Get Org List For Phone:
+  request:
+    url: /getOrgListForPhone
+    method: GET
+    headers:
+      authorization: "appCode pwLTKTob8DLNM4wRzIXCWXqxEvWlE4Tz"
+    data:
+      phone: 13367966390
+
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]
+    - eq: ["<", $.response_time, 3]

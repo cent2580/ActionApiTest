@@ -1,0 +1,20 @@
+Create Task:
+  request:
+    url: /createTask
+    method: POST
+    headers:
+      authorization: "Bearer $token"
+    data:
+      uid: $uid
+      name: "@Pi测试任务"
+      pdf_list: '[{"file_name":"logo", "url":"https://wfy-test-1255770579.cos.ap-nanjing.myqcloud.com/sig_origin_files/test-png2pdf.pdf","signees":"[{\"type\":\"personal\",\"name\":\"lC\",\"phone\":\"13367966390\",\"xy_data\":[{\"x\":150,\"y\":150,\"page\":1,\"signature_height\":67,\"file_width\":651}]}]"}]'
+      sign_end_time: 0
+      signature_type: write
+      auth_type: code
+      will_auth: ""
+      person_list: '[{"id":1,"name":"lC","phone":"13367966390","file_number":1,"sig_number":1}]'
+
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]
+    - eq: ["<", $.response_time, 3]

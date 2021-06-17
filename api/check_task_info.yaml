@@ -1,0 +1,13 @@
+Check Task Info:
+  request:
+    url: /checkTaskInfo
+    method: POST
+    headers:
+      authorization: "Bearer $token"
+    data:
+      tid: $tid
+
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, "success"]
+    - eq: ["<", $.response_time, 3]

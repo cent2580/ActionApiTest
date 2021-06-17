@@ -1,0 +1,12 @@
+Save Temp File:
+  request:
+    url: /saveTempFile
+    method: POST
+    headers:
+      authorization: "Bearer $token"
+    data:
+      uid: $uid
+      name: "@Pi测试任务"
+      pdf_list: '[{"file_name":"l@g0", "url":"$fileUrl"}]'
+  validate:
+    - eq: ["==", $.code, 200]

@@ -1,0 +1,13 @@
+Upload Token: 
+  request:
+    url: /getUploadToken
+    method: GET
+    headers:
+      authorization: "Bearer $token"
+    data:
+      dir:
+      type: public
+      action: upload
+  validate:
+    - eq: ["==", $.code, 200]
+    - eq: ["==", $.message, 'success']

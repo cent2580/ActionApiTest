@@ -1,0 +1,26 @@
+- tcid: 6
+  tcname: 创建个人签名任务
+  setup:
+    - action: ["req", "get_org_list_for_phone.yaml", "Get Org List For Phone"]
+      extract:
+        oId: $..oId
+    - action: ["req", "verify_user_info.yaml", "Verify User Info"]
+      extract:
+        token: $..token
+        uid: $..uid
+  tc:
+    - action: ["req", "create_task.yaml", "Create Task"]
+      extract:
+        tid: $..tid
+
+    - action: ["req", "get_task_list.yaml", "Get Task List"]
+      validate:
+        - eq: ["contains", $..tid, $tid]
+
+   
+  teardown:
+    - action: ["req", "delete_task_info.yaml", "Delete Task Info"]
+    - action: ["req", "get_task_list.yaml", "Get Task List"]
+      validate:
+        - eq: ["nocontains", $..tid, $tid]
+    
